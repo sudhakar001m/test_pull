@@ -332,5 +332,3 @@ Available helpers:
   <kbd>&nbsp;NOR | USB | SD&nbsp;</kbd>
   <kbd>&nbsp;boot_image_utility.sh&nbsp;</kbd>
 </p>
-
-<p align="center"><sub>No external images or links — renders the same offline, on GitHub, on GitLab and in a VS Code preview.</sub></p>
