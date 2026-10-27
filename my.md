@@ -1,4 +1,4 @@
-<h1 align="center">Boot Media Utility</h1>
+<h1 align="center">Boot Image Utility</h1>
 
 <p align="center"><sub>Stages the output of an <code>atc-gen2</code> Yocto build into three ready-to-use boot sets</sub></p>
 
@@ -46,7 +46,7 @@ image set needs multiple copies, and skips anything that is not required for a
 given medium.
 
 > **Run it** — after a successful `bitbake` run:
-> `cd BOOT_MEDIA_UTILITY && bash boot_image_utility.sh`
+> `cd BOOT_IMAGE_UTILITY && bash boot_image_utility.sh`
 
 ---
 
@@ -93,7 +93,7 @@ mount a target device.
 - **No root required** when the source tree is owned by your user. Plain `cp`
   is used, so a permission error surfaces as a `[FAIL]` line.
 
-The script must be run **from the `BOOT_MEDIA_UTILITY/` directory**. Every source
+The script must be run **from the `BOOT_IMAGE_UTILITY/` directory**. Every source
 path inside it is relative to the current working directory.
 
 ---
@@ -101,7 +101,7 @@ path inside it is relative to the current working directory.
 ## Usage
 
 ```bash
-cd BOOT_MEDIA_UTILITY
+cd BOOT_IMAGE_UTILITY
 
 bash boot_image_utility.sh
 ```
@@ -122,7 +122,7 @@ Oriux/
 │       └── work/                       # rcw and qe-ucode artifacts (read)
 ├── eth_conf/
 │   └── ethernet_config.bin             # generated, not tracked in git
-└── BOOT_MEDIA_UTILITY/
+└── BOOT_IMAGE_UTILITY/
     ├── boot_image_utility.sh
     ├── NOR_IMAGES/                     # created on first run
     ├── USB_IMAGES/                     # created on first run
@@ -130,7 +130,7 @@ Oriux/
 ```
 
 ```bash
-cd Oriux/BOOT_MEDIA_UTILITY
+cd Oriux/BOOT_IMAGE_UTILITY
 bash boot_image_utility.sh
 ```
 
@@ -270,12 +270,12 @@ build's output.
 | `[FAIL] … ethernet_config.bin was not found in ../eth_conf/` | The binary is a generated artifact and is not tracked in git; only `eth_confs.c` and a README ship in that folder | Copy or generate `ethernet_config.bin` into `eth_conf/` |
 | `[FAIL] No matching … .ubifs image was found` | Deploy dir has no image of that type | Build the image (`bitbake atc-gen2-core` / `bitbake core-image-minimal`), confirm `IMAGE_FSTYPES` includes `ubi` |
 | `[FAIL] Required kernel image zImage was not found` | Kernel not built, or wrong `IMG_DIR` | `bitbake virtual/kernel`, then rerun |
-| Everything fails with "not found" | Script was run from the wrong directory | `cd` into `BOOT_MEDIA_UTILITY/` first |
+| Everything fails with "not found" | Script was run from the wrong directory | `cd` into `BOOT_IMAGE_UTILITY/` first |
 | `[FATAL] Failed to create one or more output directories` | No write permission in the utility folder | Run from a writable copy, or fix ownership |
 | Nothing was picked up, only old timestamps | Stale `tmp/deploy` from an earlier build | Verify the build actually completed in this tree |
 
 > The comment block at the top of the script mentions `NOR_utility/`. That is a
-> historical name — the directory is `BOOT_MEDIA_UTILITY/`. The comment has no
+> historical name — the directory is `BOOT_IMAGE_UTILITY/`. The comment has no
 > effect on behavior.
 
 ---
