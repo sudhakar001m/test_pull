@@ -31,7 +31,7 @@
 |                                                                  |
 |    atc-gen2  |  LS1021A  |  fsl-qoriq  |  bash                   |
 |                                                                  |
-+==================================================================+
++------------------------------------------------------------------+
 ```
 
 A single script that collects the artifacts produced by a Yocto build of the
