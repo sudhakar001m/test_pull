@@ -1,14 +1,13 @@
-<a id="top"></a>
 <h1 align="center">Boot Media Utility</h1>
 
 <p align="center"><sub>Stages the output of an <code>atc-gen2</code> Yocto build into three ready-to-use boot sets</sub></p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/platform-linux-informational?style=for-the-badge" alt="Platform: Linux">
-  <img src="https://img.shields.io/badge/shell-bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" alt="Shell: bash">
-  <img src="https://img.shields.io/badge/board-ATC--Gen2%20%2F%20LS1021A-blue?style=for-the-badge" alt="Board: ATC-Gen2 / LS1021A">
-  <img src="https://img.shields.io/badge/distro-fsl--qoriq-orange?style=for-the-badge" alt="Distro: fsl-qoriq">
-  <img src="https://img.shields.io/badge/files-27%20staged-6f42c1?style=for-the-badge" alt="27 files staged">
+  <kbd>&nbsp;linux&nbsp;</kbd>
+  <kbd>&nbsp;bash&nbsp;</kbd>
+  <kbd>&nbsp;ATC-Gen2 / LS1021A&nbsp;</kbd>
+  <kbd>&nbsp;fsl-qoriq&nbsp;</kbd>
+  <kbd>&nbsp;27 files staged&nbsp;</kbd>
 </p>
 
 <p align="center">
@@ -55,7 +54,7 @@ given medium.
 
 | <sub>MEDIUM</sub><br>**NOR_IMAGES/** | <sub>MEDIUM</sub><br>**USB_IMAGES/** | <sub>MEDIUM</sub><br>**SD_IMAGES/** |
 | :---: | :---: | :---: |
-| <img src="https://img.shields.io/badge/files-13-0a7bbb?style=for-the-badge" alt="13 files"> | <img src="https://img.shields.io/badge/files-10-8957e5?style=for-the-badge" alt="10 files"> | <img src="https://img.shields.io/badge/files-4-2ea44f?style=for-the-badge" alt="4 files"> |
+| `█████████████` **13 files** | `██████████` **10 files** | `████` **4 files** |
 | **NOR flash image set** | **USB recovery / update set** | **SD card image set** |
 | fixed boot names<br>`ubifs1` · `ubifs2`<br>`dtbd` · `dtb1` · `dtb2`<br>`krn` · `kr1` · `kr2` | derived from `NOR_IMAGES/`<br>minus three files | original names kept<br>`.tar.gz` · `.dtb` · `.bin` |
 
@@ -205,9 +204,9 @@ Every step reports one of three tags:
 
 | Tag | Meaning |
 | :---: | --- |
-| <img src="https://img.shields.io/badge/%5BOK%5D-copied-2ea44f?style=flat-square" alt="OK"> | File copied successfully |
-| <img src="https://img.shields.io/badge/%5BINFO%5D-skipped-0969da?style=flat-square" alt="INFO"> | Deliberately skipped — not required for that medium |
-| <img src="https://img.shields.io/badge/%5BFAIL%5D-missing-d1242f?style=flat-square" alt="FAIL"> | Source missing, or the copy itself failed |
+| <kbd>[OK]</kbd> copied | File copied successfully |
+| <kbd>[INFO]</kbd> skipped | Deliberately skipped, not required for that medium |
+| <kbd>[FAIL]</kbd> missing | Source missing, or the copy itself failed |
 
 Each action prints one line:
 
@@ -329,11 +328,9 @@ Available helpers:
 ---
 
 <p align="center">
-  <a href="#top"><b>&uarr; back to top</b></a>
+  <kbd>&nbsp;ATC-Gen2 / LS1021A&nbsp;</kbd>
+  <kbd>&nbsp;NOR | USB | SD&nbsp;</kbd>
+  <kbd>&nbsp;boot_image_utility.sh&nbsp;</kbd>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/ATC--Gen2-LS1021A-blue?style=flat-square" alt="ATC-Gen2 / LS1021A">
-  <img src="https://img.shields.io/badge/media-NOR%20%7C%20USB%20%7C%20SD-success?style=flat-square" alt="NOR | USB | SD">
-  <img src="https://img.shields.io/badge/documented%20from-boot__image__utility.sh-lightgrey?style=flat-square" alt="Documented from boot_image_utility.sh">
-</p>
+<p align="center"><sub>No external images or links — renders the same offline, on GitHub, on GitLab and in a VS Code preview.</sub></p>
