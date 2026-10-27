@@ -1,23 +1,39 @@
+<a id="top"></a>
+<h1 align="center">Boot Media Utility</h1>
+
+<p align="center"><sub>Stages the output of an <code>atc-gen2</code> Yocto build into three ready-to-use boot sets</sub></p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/platform-linux-informational?style=for-the-badge" alt="Platform: Linux">
+  <img src="https://img.shields.io/badge/shell-bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" alt="Shell: bash">
+  <img src="https://img.shields.io/badge/board-ATC--Gen2%20%2F%20LS1021A-blue?style=for-the-badge" alt="Board: ATC-Gen2 / LS1021A">
+  <img src="https://img.shields.io/badge/distro-fsl--qoriq-orange?style=for-the-badge" alt="Distro: fsl-qoriq">
+  <img src="https://img.shields.io/badge/files-27%20staged-6f42c1?style=for-the-badge" alt="27 files staged">
+</p>
+
+<p align="center">
+  <a href="#what-it-produces"><b>Overview</b></a> ·
+  <a href="#requirements"><b>Requirements</b></a> ·
+  <a href="#usage"><b>Usage</b></a> ·
+  <a href="#output-reference"><b>Files</b></a> ·
+  <a href="#reading-the-output"><b>Output</b></a> ·
+  <a href="#troubleshooting"><b>Troubleshooting</b></a> ·
+  <a href="#customizing"><b>Customizing</b></a> ·
+  <a href="#limitations"><b>Limitations</b></a>
+</p>
+
 ```text
-+==================================================================+
++------------------------------------------------------------------+
+|  boot_image_utility.sh                            -   []   X     |
++------------------------------------------------------------------+
 |                                                                  |
-|    B O O T   M E D I A   U T I L I T Y                           |
+|    NOR_IMAGES/          USB_IMAGES/          SD_IMAGES/          |
+|    13 files             10 files             4 files             |
 |                                                                  |
-|    ATC-Gen2  /  LS1021A  /  NOR | USB | SD                       |
+|    atc-gen2  |  LS1021A  |  fsl-qoriq  |  bash                   |
 |                                                                  |
 +==================================================================+
 ```
-
-# Boot Media Utility
-
-[![Platform](https://img.shields.io/badge/Platform-Linux-informational?style=flat-square)](#requirements)
-[![Shell](https://img.shields.io/badge/Shell-bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white)](#requirements)
-[![Board](https://img.shields.io/badge/Board-ATC--Gen2%20%2F%20LS1021A-blue?style=flat-square)](#output-reference)
-[![Distro](https://img.shields.io/badge/Distro-fsl--qoriq-orange?style=flat-square)](#requirements)
-[![Media](https://img.shields.io/badge/Media-NOR%20%7C%20USB%20%7C%20SD-success?style=flat-square)](#what-it-produces)
-
-> **TL;DR** — after a successful `bitbake` run:
-> `cd BOOT_MEDIA_UTILITY && bash boot_image_utility.sh`
 
 A single script that collects the artifacts produced by a Yocto build of the
 `atc-gen2` machine and stages them into three ready-to-use folders — one per
@@ -30,29 +46,18 @@ renames it to the fixed names the boot flow expects, duplicates it where the
 image set needs multiple copies, and skips anything that is not required for a
 given medium.
 
----
-
-## Table of contents
-
-- [What it produces](#what-it-produces)
-- [Requirements](#requirements)
-- [Usage](#usage)
-- [Output reference](#output-reference)
-- [Reading the output](#reading-the-output)
-- [How "latest" is chosen](#how-latest-is-chosen)
-- [Troubleshooting](#troubleshooting)
-- [Customizing](#customizing)
-- [Limitations](#limitations)
+> **Run it** — after a successful `bitbake` run:
+> `cd BOOT_MEDIA_UTILITY && bash boot_image_utility.sh`
 
 ---
 
 ## What it produces
 
-| Folder | Boot medium |
-| --- | --- |
-| `NOR_IMAGES/` | NOR flash image set |
-| `USB_IMAGES/` | USB recovery / update set |
-| `SD_IMAGES/` | SD card image set |
+| <sub>MEDIUM</sub><br>**NOR_IMAGES/** | <sub>MEDIUM</sub><br>**USB_IMAGES/** | <sub>MEDIUM</sub><br>**SD_IMAGES/** |
+| :---: | :---: | :---: |
+| <img src="https://img.shields.io/badge/files-13-0a7bbb?style=for-the-badge" alt="13 files"> | <img src="https://img.shields.io/badge/files-10-8957e5?style=for-the-badge" alt="10 files"> | <img src="https://img.shields.io/badge/files-4-2ea44f?style=for-the-badge" alt="4 files"> |
+| **NOR flash image set** | **USB recovery / update set** | **SD card image set** |
+| fixed boot names<br>`ubifs1` · `ubifs2`<br>`dtbd` · `dtb1` · `dtb2`<br>`krn` · `kr1` · `kr2` | derived from `NOR_IMAGES/`<br>minus three files | original names kept<br>`.tar.gz` · `.dtb` · `.bin` |
 
 At a glance:
 
@@ -137,7 +142,8 @@ existing files are overwritten with `cp -f`.
 
 ## Output reference
 
-### `NOR_IMAGES/`
+<details>
+<summary><b><code>NOR_IMAGES/</code></b> &nbsp;·&nbsp; 13 files</summary>
 
 | Output file | Source |
 | --- | --- |
@@ -160,7 +166,10 @@ The device tree and the kernel are each written under three names; the two
 `core-image-minimal` UBIFS is copied under its timestamped name because that is
 where its build ID lives.
 
-### `USB_IMAGES/`
+</details>
+
+<details>
+<summary><b><code>USB_IMAGES/</code></b> &nbsp;·&nbsp; 10 files</summary>
 
 Everything from `NOR_IMAGES/` **except** three files:
 
@@ -174,7 +183,10 @@ Result: `atc-gen2-core-atc-gen2.ubifs1`, `atc-gen2-core-atc-gen2.ubifs2`,
 `atc-gen2.dtb1`, `atc-gen2.dtb2`, `ethernet_config.eth`, `QE.bin`,
 `rcw_1000.pbl`, `u-boot-nor-1.0+fslgit-r0.btt`, `zImage.kr1`, `zImage.kr2`.
 
-### `SD_IMAGES/`
+</details>
+
+<details>
+<summary><b><code>SD_IMAGES/</code></b> &nbsp;·&nbsp; 4 files</summary>
 
 | Output file | Source |
 | --- | --- |
@@ -182,6 +194,8 @@ Result: `atc-gen2-core-atc-gen2.ubifs1`, `atc-gen2-core-atc-gen2.ubifs2`,
 | `uImage-atc-gen2.dtb` | deploy dir, name kept |
 | `u-boot-sdcard-ifc-1.0+fslgit-r0.bin` | deploy dir, name kept |
 | `zImage` | deploy dir, name kept |
+
+</details>
 
 ---
 
@@ -191,9 +205,9 @@ Every step reports one of three tags:
 
 | Tag | Meaning |
 | :---: | --- |
-| `[OK]` | File copied successfully |
-| `[INFO]` | Deliberately skipped — not required for that medium |
-| `[FAIL]` | Source missing, or the copy itself failed |
+| <img src="https://img.shields.io/badge/%5BOK%5D-copied-2ea44f?style=flat-square" alt="OK"> | File copied successfully |
+| <img src="https://img.shields.io/badge/%5BINFO%5D-skipped-0969da?style=flat-square" alt="INFO"> | Deliberately skipped — not required for that medium |
+| <img src="https://img.shields.io/badge/%5BFAIL%5D-missing-d1242f?style=flat-square" alt="FAIL"> | Source missing, or the copy itself failed |
 
 Each action prints one line:
 
@@ -314,10 +328,12 @@ Available helpers:
 
 ---
 
-<div align="center">
+<p align="center">
+  <a href="#top"><b>&uarr; back to top</b></a>
+</p>
 
-**Boot Media Utility** · ATC-Gen2 (LS1021A) · Oriux BSP
-
-*Documented from `boot_image_utility.sh`.*
-
-</div>
+<p align="center">
+  <img src="https://img.shields.io/badge/ATC--Gen2-LS1021A-blue?style=flat-square" alt="ATC-Gen2 / LS1021A">
+  <img src="https://img.shields.io/badge/media-NOR%20%7C%20USB%20%7C%20SD-success?style=flat-square" alt="NOR | USB | SD">
+  <img src="https://img.shields.io/badge/documented%20from-boot__image__utility.sh-lightgrey?style=flat-square" alt="Documented from boot_image_utility.sh">
+</p>
