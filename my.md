@@ -1,4 +1,23 @@
+```text
++==================================================================+
+|                                                                  |
+|    B O O T   M E D I A   U T I L I T Y                           |
+|                                                                  |
+|    ATC-Gen2  /  LS1021A  /  NOR | USB | SD                       |
+|                                                                  |
++==================================================================+
+```
+
 # Boot Media Utility
+
+[![Platform](https://img.shields.io/badge/Platform-Linux-informational?style=flat-square)](#requirements)
+[![Shell](https://img.shields.io/badge/Shell-bash-4EAA25?style=flat-square&logo=gnubash&logoColor=white)](#requirements)
+[![Board](https://img.shields.io/badge/Board-ATC--Gen2%20%2F%20LS1021A-blue?style=flat-square)](#output-reference)
+[![Distro](https://img.shields.io/badge/Distro-fsl--qoriq-orange?style=flat-square)](#requirements)
+[![Media](https://img.shields.io/badge/Media-NOR%20%7C%20USB%20%7C%20SD-success?style=flat-square)](#what-it-produces)
+
+> **TL;DR** — after a successful `bitbake` run:
+> `cd BOOT_MEDIA_UTILITY && bash boot_image_utility.sh`
 
 A single script that collects the artifacts produced by a Yocto build of the
 `atc-gen2` machine and stages them into three ready-to-use folders — one per
@@ -34,6 +53,27 @@ given medium.
 | `NOR_IMAGES/` | NOR flash image set |
 | `USB_IMAGES/` | USB recovery / update set |
 | `SD_IMAGES/` | SD card image set |
+
+At a glance:
+
+|  |  |
+| --- | --- |
+| **Input** | `tmp/deploy/images/atc-gen2` + two `tmp/work` paths + `eth_conf/` |
+| **Output** | `NOR_IMAGES/`, `USB_IMAGES/`, `SD_IMAGES/` |
+| **Files staged** | 13 NOR · 10 USB · 4 SD |
+| **Runtime** | seconds — plain file copies, no compression |
+| **Exit code** | `0` all good · `1` something is missing |
+| **Re-runnable** | yes — overwrites in place, never deletes |
+
+```text
+  SOURCES                               STAGED OUTPUT
+  +----------------------------+        +----------------------+
+  | tmp/deploy/images/atc-gen2 |        | NOR_IMAGES/   13     |
+  | tmp/work/.../rcw           |   cp   | USB_IMAGES/   10     |
+  | tmp/work/.../qe-ucode      | ---->  | SD_IMAGES/     4     |
+  | eth_conf/                  |        +----------------------+
+  +----------------------------+
+```
 
 The script copies files only. It does not flash anything, format media, or
 mount a target device.
@@ -146,6 +186,14 @@ Result: `atc-gen2-core-atc-gen2.ubifs1`, `atc-gen2-core-atc-gen2.ubifs2`,
 ---
 
 ## Reading the output
+
+Every step reports one of three tags:
+
+| Tag | Meaning |
+| :---: | --- |
+| `[OK]` | File copied successfully |
+| `[INFO]` | Deliberately skipped — not required for that medium |
+| `[FAIL]` | Source missing, or the copy itself failed |
 
 Each action prints one line:
 
@@ -263,3 +311,13 @@ Available helpers:
 - **No flashing.** This prepares a folder, nothing more.
 - **The USB set is derived from `NOR_IMAGES/`**, not from the deploy directory,
   so it inherits whatever that folder contains — including leftovers.
+
+---
+
+<div align="center">
+
+**Boot Media Utility** · ATC-Gen2 (LS1021A) · Oriux BSP
+
+*Documented from `boot_image_utility.sh`.*
+
+</div>
