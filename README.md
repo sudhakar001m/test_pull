@@ -27,6 +27,10 @@ cd <build-path>/Oriux
 ```
 
 ```bash
+source atc-gen2-env -m <build_dir_name>
+```
+For example:
+```bash
 source atc-gen2-env -m atc-gen2
 ```
 
